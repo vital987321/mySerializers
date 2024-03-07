@@ -1,0 +1,39 @@
+>>> from myapp.models import Product
+>>> from myapp.api.serializers import ProductSerializer
+>>> pr1=Product.objects.all().first()
+>>> pr1s=ProductSerializer(pr1)
+>>> pr1s.data
+{'id': 1, 'name': 'phone', 'description': 'samsung', 'price': '1000.00', 'stock_amount': 10}
+>>> pr4s=ProductSerializer(data={'name':'iphone','description':'v15','price':'1200','stock_amount':6}) 
+>>> pr4s.is_valid()
+True
+>>> pr4s.validated_data
+OrderedDict([('name', 'iphone'), ('description', 'v15'), ('price', Decimal('1200.00')), ('stock_amount', 6)])
+>>> pr4s.save()
+<Product: 4_iphone>
+>>> 
+>>> from myapp.models import Purchase
+>>> from myapp.api.serializers import PurchaseSerializer
+>>> purchase1=Purchase.objects.first()
+>>> purchase1
+<Purchase: 1_phone>
+>>> purchase_1_ser=PurchaseSerializer(purchase1)
+>>> purchase_1_ser
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "D:\git\serializers__L37\venv\Lib\site-packages\rest_framework\serializers.py", line 530, in __repr__
+    return representation.serializer_repr(self, indent=1)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\git\serializers__L37\venv\Lib\site-packages\rest_framework\utils\representation.py", line 77, in serializer_repr
+    fields = serializer.fields
+             ^^^^^^^^^^^^^^^^^
+  File "D:\git\serializers__L37\venv\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "D:\git\serializers__L37\venv\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "D:\git\serializers__L37\venv\Lib\site-packages\rest_framework\serializers.py", line 1032, in get_fields
+    assert hasattr(self.Meta, 'model'), (
+AssertionError: Class PurchaseSerializer missing "Meta.model" attribute
+>>>
