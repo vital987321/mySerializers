@@ -15,9 +15,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
-    client = UserSerializer()
-    product = ProductSerializer()
+    # client = UserSerializer()
+    # product = ProductSerializer()
+    # client = serializers.PrimaryKeyRelatedField(read_only=True)
+    # product = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model= Purchase
-        fields = '__all__'
+        fields = ['client', 'product', 'product_amount']
