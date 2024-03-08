@@ -19,5 +19,5 @@ class PurchaseSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
 
     class Meta:
-        model: Purchase
+        model= Purchase
         fields = '__all__'

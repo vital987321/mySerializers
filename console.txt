@@ -37,3 +37,88 @@ Traceback (most recent call last):
     assert hasattr(self.Meta, 'model'), (
 AssertionError: Class PurchaseSerializer missing "Meta.model" attribute
 >>>
+
+
+
+>>> from myapp.models import Product
+>>> from myapp.api.serializers import ProductSerializer
+>>> pr1=Product.objects.all().first()
+>>> pr1s=ProductSerializer(pr1)
+>>> pr1s.data
+{'id': 1, 'name': 'iphone', 'description': 'v15', 'price': '1200.00', 'stock_amount': 6}
+>>> pr2s=ProductSerializer(data={'name':'iphone','description':'v15','price':'1200','stock_amount':6}) 
+>>> pr2s.is_valid()     
+True
+>>> pr2s.save() 
+<Product: 2_iphone>
+>>> from myapp.models import Purchase
+>>> from myapp.models import User    
+>>> from myapp.api.serializers import PurchaseSerializer
+>>> from myapp.api.serializers import UserSerializer     
+>>> purchase1=Purchase.objects.first()
+>>> purchase1
+<Purchase: 1_iphone>
+>>> purchase_1_ser=PurchaseSerializer(purchase1)
+>>> purchase_1_ser.data
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "D:\My_Staff\git\mySerializers_project\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "D:\My_Staff\git\mySerializers_project\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\My_Staff\git\mySerializers_project\venv\Lib\site-packages\rest_framework\serializers.py", line 507, in to_representation
+    for field in fields:
+  File "D:\My_Staff\git\mySerializers_project\venv\Lib\site-packages\rest_framework\serializers.py", line 368, in _readable_fields
+    for field in self.fields.values():
+                 ^^^^^^^^^^^
+  File "D:\My_Staff\git\mySerializers_project\venv\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ^^^^^^^^^^^^^^^^^^^
+  File "D:\My_Staff\git\mySerializers_project\venv\Lib\site-packages\rest_framework\serializers.py", line 356, in fields
+    for key, value in self.get_fields().items():
+                      ^^^^^^^^^^^^^^^^^
+  File "D:\My_Staff\git\mySerializers_project\venv\Lib\site-packages\rest_framework\serializers.py", line 1032, in get_fields
+    assert hasattr(self.Meta, 'model'), (
+AssertionError: Class PurchaseSerializer missing "Meta.model" attribute
+>>>
+
+
+
+
+(venv) PS D:\My_Staff\git\mySerializers_project\mySerializers> python manage.py shell
+Python 3.11.2 (tags/v3.11.2:878ead1, Feb  7 2023, 16:38:35) [MSC v.1934 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from myapp.models import Product
+>>> from myapp.api.serializers import ProductSerializer
+>>> from myapp.models import Purchase
+>>> from myapp.models import User
+>>> from myapp.api.serializers import PurchaseSerializer
+>>> from myapp.api.serializers import UserSerializer
+>>> purchase1=Purchase.objects.first()
+>>> purchase1
+<Purchase: 1_iphone>
+>>> purchase_1_ser=PurchaseSerializer(purchase1)
+>>> purchase_1_ser.data
+{'id': 1, 'client': OrderedDict([('id', 1), ('password', 'pbkdf2_sha256$720000$9xCGGe3OrARHYvKL4yZgYh$gWcS7f3qFiscv8lMxeZ33yA1BIn70vxGsezV0LhOY48='), ('last_login', '2024-03-08T09:31:53.978853Z'), ('is_superuser', True), 
+('username', 'admin'), ('first_name', ''), ('last_name', ''), ('email', ''), ('is_staff', True), ('is_active', True), ('date_joined', '2024-03-08T09:31:29.116212Z'), ('wallet', '10000.00'), ('groups', []), ('user_permissions', [])]), 'product': OrderedDict([('id', 1), ('name', 'iphone'), ('description', 'v15'), ('price', '1200.00'), ('stock_amount', 6)]), 'product_amount': 3, 'purchasing_time': '2024-03-08'}
+>>> pr1=Product.objects.all().first()
+>>> user1=User.objects.all.first()   
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'function' object has no attribute 'first'
+>>> user1=User.objects.all().first()
+>>> user1
+<User: admin>
+>>> purchase_2_ser=PurchaseSerializer(data={'client':user1, 'product':pr1, 'product_amount':2})
+>>> purchase_2_ser.is_valid()
+False
+>>> purchase_2_ser.errors
+{'client': {'non_field_errors': [ErrorDetail(string='Invalid data. Expected a dictionary, but got User.', code='invalid')]}, 'product': {'non_field_errors': [ErrorDetail(string='Invalid data. Expected a dictionary, but got Product.', code='invalid')]}}
+>>> user1_ser=UserSerializer(user1)
+>>> user1_ser.data
+{'id': 1, 'password': 'pbkdf2_sha256$720000$9xCGGe3OrARHYvKL4yZgYh$gWcS7f3qFiscv8lMxeZ33yA1BIn70vxGsezV0LhOY48=', 'last_login': '2024-03-08T09:31:53.978853Z', 'is_superuser': True, 'username': 'admin', 'first_name': '', 'last_name': '', 'email': '', 'is_staff': True, 'is_active': True, 'date_joined': '2024-03-08T09:31:29.116212Z', 'wallet': '10000.00', 'groups': [], 'user_permissions': []}
+>>>
+
