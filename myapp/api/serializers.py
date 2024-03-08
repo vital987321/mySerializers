@@ -23,3 +23,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
     class Meta:
         model= Purchase
         fields = ['client', 'product', 'product_amount']
+
+def rep():
+    print()
+    print(repr(UserSerializer))
