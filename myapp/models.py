@@ -20,9 +20,9 @@ class Product(models.Model):
 
 class Purchase(models.Model):
     client = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='client')
+        User, on_delete=models.CASCADE, related_name='purchase')
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name='product')
+        Product, on_delete=models.CASCADE, related_name='purchase')
     product_amount = models.PositiveIntegerField()
     purchasing_time = models.DateField(auto_now_add=True)
 

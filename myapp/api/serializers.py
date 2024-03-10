@@ -5,7 +5,7 @@ from myapp.models import User, Product, Purchase
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['username','wallet',]
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -15,15 +15,21 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
-    # client = UserSerializer()
-    # product = ProductSerializer()
-    # client = serializers.PrimaryKeyRelatedField(read_only=True)
-    # product = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model= Purchase
         fields = ['client', 'product', 'product_amount']
 
-def rep():
-    print()
-    print(repr(UserSerializer))
+
+class PurchaseWithUserSerializer(serializers.ModelSerializer):
+    client=UserSerializer(many=False)
+    class Meta:
+        model = Purchase
+        fields = ['client', 'product', 'product_amount']
+
+
+class UserWithPurchasesSerializer(serializers.ModelSerializer):
+    purchase=serializers.StringRelatedField(many=True)
+    class Meta:
+        model = User
+        fields = ['username', 'wallet','purchase']

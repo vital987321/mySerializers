@@ -144,3 +144,36 @@ False
 'user_permissions': []}
 
 user2s=UserSerializer(data={'password':'123', 'is_superuser': False, 'username': 'user2','first_name': '', 'last_name': '', 'email': '', 'is_staff': True, 'is_active': True, 'wallet': '10000.00', 'groups': [], 'user_permissions': []})
+
+
+
+
+10.03.24
+Task 3, 3.1
+>>> from myapp.api.serializers import UserSerializer
+>>> from myapp.api.serializers import PurchaseWithUserSerializer
+>>> from myapp.models import Purchase
+>>> Purchase.objects.all()
+<QuerySet [<Purchase: 1_phone>, <Purchase: 2_tv>, <Purchase: 3_tablet>, <Purchase: 4_phone>]>
+>>> pur1=Purchase.objects.all().first()
+>>> pur1
+<Purchase: 1_phone>
+>>> pur1s=PurchaseWithUserSerializer(pur1)
+>>> pur1s.data
+{'client': OrderedDict([('username', 'user1'), ('wallet', '10000.00')]), 'product': 1, 'product_amount': 1}
+>>> 
+
+
+task 4, 4.1
+
+from myapp.api.serializers import UserSerializer
+from myapp.api.serializers import PurchaseWithUserSerializer
+from myapp.api.serializers import UserWithPurchasesSerializer
+from myapp.models import Purchase
+from myapp.models import User
+user3=User.objects.all().first()
+user3_serializer=UserWithPurchasesSerializer(user3)
+user3_serializer.data
+{'username': 'user2', 'wallet': '10000.00', 'purchase': ['3_tablet', '4_phone']}
+
+
