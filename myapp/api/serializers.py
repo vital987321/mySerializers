@@ -15,17 +15,17 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
-
     class Meta:
         model= Purchase
         fields = ['client', 'product', 'product_amount']
 
 
 class PurchaseWithUserSerializer(serializers.ModelSerializer):
-    client=UserSerializer(many=False)
+    client_serializer = UserSerializer(many=False, read_only=True, source='client')
+    client = serializers.PrimaryKeyRelatedField(queryset=User.objects.all() ,write_only=True)
     class Meta:
         model = Purchase
-        fields = ['client', 'product', 'product_amount']
+        fields = ['client', 'client_serializer', 'product', 'product_amount']
 
 
 class UserWithPurchasesSerializer(serializers.ModelSerializer):
