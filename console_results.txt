@@ -52,7 +52,7 @@ Task 3
 <Purchase: 1_phone>
 >>> pur1s=PurchaseWithUserSerializer(pur1)
 >>> pur1s.data
-{'client': OrderedDict([('username', 'user1'), ('wallet', '10000.00')]), 'product': 1, 'product_amount': 1}
+{'client_serializer': OrderedDict([('username', 'user1'), ('wallet', '10000.00')]), 'product': 1, 'product_amount': 1}
 >>> 
 
 ========================================================================================
